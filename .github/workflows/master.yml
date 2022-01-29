@@ -38,3 +38,4 @@ jobs:
           remote: /home/alqio/test
           host: ${{ secrets.HOST }}
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+          username: ${{ secrets.SSH_USER }}
