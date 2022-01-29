@@ -34,9 +34,10 @@ public class BaseTimer : MonoBehaviour
     void Update()
     {
         if (isStarted && !isDone) {
-            currentTime +=  Time.deltaTime;
+            currentTime += Time.deltaTime;
             if (currentTime >= duration) {
                 OnTimerDone();
+                currentTime = duration;
             }
         }
     }
