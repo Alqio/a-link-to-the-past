@@ -330,6 +330,8 @@ GameObject:
   - component: {fileID: 1431307646}
   - component: {fileID: 1431307645}
   - component: {fileID: 1431307649}
+  - component: {fileID: 1431307651}
+  - component: {fileID: 1431307650}
   m_Layer: 0
   m_Name: monster
   m_TagString: Future
@@ -451,6 +453,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf8d2106b6564540a32652f4d148c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1431307650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431307644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc29435ada45b948a4ad3b547b3dcac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+--- !u!114 &1431307651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431307644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5e502ea48190cf48a1cc60ab7978437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 3
 --- !u!1001 &1675111399
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -522,6 +551,7 @@ GameObject:
   - component: {fileID: 1742754860}
   - component: {fileID: 1742754861}
   - component: {fileID: 1742754862}
+  - component: {fileID: 1742754863}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -658,6 +688,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+--- !u!114 &1742754863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742754856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f61b577b2c24b1d4cb89bbb9ccc8cd50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holePrefab: {fileID: 3900587964644209334, guid: 2e6ef955642de43469aaecd1feab1e62, type: 3}
 --- !u!1001 &2089219978
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -10,6 +10,8 @@ public class MonsterCollider : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        other.collider.gameObject.SendMessage(damageEventName, damage);
+        if (other.gameObject.name == "player") {
+            other.collider.gameObject.SendMessage(damageEventName, damage);
+        }
     }
 }
