@@ -12,10 +12,11 @@ public class HoleCollision : MonoBehaviour
         if (other.gameObject.name == "monster")
         {
             float deepness = gameObject.transform.localScale.x;
-            var options = new object[2];
+            var options = new object[3];
 
             options[0] = damage;
             options[1] = deepness;
+            options[2] = gameObject;
 
             other.collider.gameObject.SendMessage(damageEventName, options);
         }
@@ -26,7 +27,7 @@ public class HoleCollision : MonoBehaviour
     {
         if (other.gameObject.name == "monster")
         {
-            other.gameObject.GetComponent<MonsterState>().UnStuck();
+            other.collider.gameObject.SendMessage("UnStuck", gameObject);
         }
 
     }

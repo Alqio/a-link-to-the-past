@@ -10,21 +10,34 @@ public class HealthBarComponent : MonoBehaviour
 
     float targetValue;
     float currentValue;
+    bool isLerp;
 
     float moveSpeed = 200.0f;
 
-    public void Initialize(float health)
+    public void Initialize(float health, bool isLerp = true)
     {
         currentValue = health;
         SetValue(health);
+        this.isLerp = isLerp;
+        slider.maxValue = health;
     }
 
     public void SetValue(float health)
     {
         targetValue = health;
+
+        if (!isLerp) {
+            currentValue = targetValue;
+            slider.value = currentValue;
+        }
     }
 
     void Update() {
+
+        if (!isLerp) {
+            return;
+        }
+
         if (Mathf.Abs(currentValue - targetValue) < 0.1)
         {
             slider.value = targetValue;
