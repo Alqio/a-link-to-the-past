@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
 
     public bool inFuture = true;
+
+    public PostProcessVolume pastPostProcessing;
 
     public const string FUTURE_TAG = "Future";
     public const string PAST_TAG = "Past";
@@ -21,6 +24,8 @@ public class GameManager : MonoBehaviour
     public CooldownTimer cooldownTimer = null;
 
     bool isTimeTravelOnCooldown = false;
+    float postProcessingLerpSpeed = -2.0f;
+    bool isPostProcessTransitioning = false;
 
     void Awake()
     {
@@ -91,6 +96,23 @@ public class GameManager : MonoBehaviour
         {
             TimeTravel();
         }
+
+        if (isPostProcessTransitioning) {
+            var newWeightValue = pastPostProcessing.weight + Time.deltaTime * postProcessingLerpSpeed;
+            if (newWeightValue > 1)
+            {
+                newWeightValue = 1;
+                isPostProcessTransitioning = false;
+            }
+
+             if (newWeightValue < 0)
+            {
+                newWeightValue = 0;
+                isPostProcessTransitioning = false;
+            }
+
+            pastPostProcessing.weight = newWeightValue;
+        }
     }
 
     public void TimeTravel()
@@ -130,6 +152,8 @@ public class GameManager : MonoBehaviour
         }
         pastTimer.SetDuration(PAST_MAX_SECONDS);
         pastTimer.StartTimer();
+        postProcessingLerpSpeed = -postProcessingLerpSpeed;
+        isPostProcessTransitioning = true;
     }
 
     public void EndCooldown() {
@@ -153,6 +177,9 @@ public class GameManager : MonoBehaviour
         }
         cooldownTimer.SetDuration(COOLDOWN_MAX_SECONDS);
         cooldownTimer.StartTimer();
+
+        postProcessingLerpSpeed = -postProcessingLerpSpeed;
+        isPostProcessTransitioning = true;
     }
 
     public void Win()
