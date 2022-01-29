@@ -156,23 +156,27 @@ public class GameManager : MonoBehaviour
         Debug.Log("OnEnterPast");
         foreach (var pastObject in pastObjects)
         {
-            var collider = pastObject.GetComponent<Collider2D>();
-            if (collider != null) {
+            var collider = pastObject.GetComponent<BoxCollider2D>();
+            if (collider != null)
+            {
                 collider.enabled = true;
             }
             var fade = pastObject.GetComponent<FadeScript>();
-            if (fade != null) {
+            if (fade != null)
+            {
                 fade.fadingIn = true;
             }
         }
         foreach (var futureObject in futureObjects)
         {
-            var collider = futureObject.GetComponent<Collider2D>();
-            if (collider != null) {
+            var collider = futureObject.GetComponent<BoxCollider2D>();
+            if (collider != null)
+            {
                 collider.enabled = false;
             }
             var fade = futureObject.GetComponent<FadeScript>();
-            if (fade != null) {
+            if (fade != null)
+            {
                 fade.fadingOut = true;
             }
         }
@@ -212,23 +216,27 @@ public class GameManager : MonoBehaviour
         Debug.Log("OnEnterFuture");
         foreach (var pastObject in pastObjects)
         {
-            var collider = pastObject.GetComponent<Collider2D>();
-            if (collider != null) {
+            var collider = pastObject.GetComponent<BoxCollider2D>();
+            if (collider != null)
+            {
                 collider.enabled = false;
             }
             var fade = pastObject.GetComponent<FadeScript>();
-            if (fade != null) {
+            if (fade != null)
+            {
                 fade.fadingOut = true;
             }
         }
         foreach (var futureObject in futureObjects)
         {
-            var collider = futureObject.GetComponent<Collider2D>();
-            if (collider != null) {
+            var collider = futureObject.GetComponent<BoxCollider2D>();
+            if (collider != null)
+            {
                 collider.enabled = true;
             }
             var fade = futureObject.GetComponent<FadeScript>();
-            if (fade != null) {
+            if (fade != null)
+            {
                 fade.fadingIn = true;
             }
         }

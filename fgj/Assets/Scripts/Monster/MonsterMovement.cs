@@ -121,7 +121,7 @@ public class MonsterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(GetComponent<MonsterState>().state);
+        Debug.Log(speed);
 
         float step = speed * Time.deltaTime;
 
