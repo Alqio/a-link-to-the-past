@@ -30,12 +30,12 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: Build-${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
+          path: build/wine
       - name: Copy folder content recursively to remote
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: build/${{ matrix.targetPlatform }}
-          remote: /home/alqio/www-data/projects
+          local: build/wine
+          remote: /home/alqio/www-data/projects/
           host: ${{ secrets.HOST }}
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
           username: ${{ secrets.SSH_USER }}
