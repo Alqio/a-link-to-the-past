@@ -19,14 +19,16 @@ public class TimerUI : MonoBehaviour
         originalColor = fillImage.color;
     }
 
-    public void OnEnterPast() {
+    public void OnEnterPast()
+    {
         Debug.Log("OnEnterPast in TimerUi");
         barComponent.SetValue(GameManager.Instance.PAST_MAX_SECONDS);
         fillImage.color = new Color(255, 255, 20.0f);
         barComponent.slider.maxValue = GameManager.Instance.PAST_MAX_SECONDS;
     }
 
-    public void OnEnterFuture() {
+    public void OnEnterFuture()
+    {
         Debug.Log("OnEnterFuture in TimerUi");
         barComponent.SetValue(0);
         fillImage.color = originalColor;
@@ -36,7 +38,8 @@ public class TimerUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.inFuture) {
+        if (GameManager.Instance.inFuture)
+        {
             if (GameManager.Instance.cooldownTimer == null) return;
 
             float remainingTime = GameManager.Instance.cooldownTimer.GetRemainingTime();
@@ -49,6 +52,6 @@ public class TimerUI : MonoBehaviour
             float remainingTime = GameManager.Instance.pastTimer.GetRemainingTime();
             barComponent.SetValue(remainingTime);
         }
-        
+
     }
 }

@@ -11,8 +11,6 @@ public class Projectile : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log("moooving");
-
         transform.position = Vector3.MoveTowards(transform.position, direction * -1000, speed * Time.deltaTime);
     }
 
