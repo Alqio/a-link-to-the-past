@@ -12,11 +12,12 @@ public class PlayerMovement : MonoBehaviour
     {
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, transform.forward);
     }
 
     void FixedUpdate()
     {
-        Vector2 moveIncrement =  input * movementSpeed * Time.fixedDeltaTime;
+        Vector2 moveIncrement = input * movementSpeed * Time.fixedDeltaTime;
         body.MovePosition(body.position + moveIncrement);
     }
 }

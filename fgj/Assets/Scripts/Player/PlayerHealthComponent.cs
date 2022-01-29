@@ -8,16 +8,19 @@ public class PlayerHealthComponent : MonoBehaviour
     public float maxHealth = 100.0f;
     float currentHealth;
 
-    void Start() {
+    void Start()
+    {
         currentHealth = maxHealth;
     }
 
-    void ApplyDamage(float damageAmount) {
+    void ApplyDamage(float damageAmount)
+    {
         Debug.Log("Applied damage to player");
         currentHealth -= damageAmount;
 
-        if (currentHealth < 0) {
-            SceneManager.LoadScene("Main");
+        if (currentHealth < 0)
+        {
+            SceneManager.LoadScene("TomiScene");
         }
     }
 }

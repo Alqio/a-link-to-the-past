@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetButtonDown("TimeTravel"))
         {
             TimeTravel();
+
         }
     }
 
