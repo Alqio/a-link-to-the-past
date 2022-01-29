@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     public PastTimer pastTimer = null;
     public CooldownTimer cooldownTimer = null;
 
+    public AudioSource backgroundMusicPast;
+    public AudioSource backgroundMusicFuture;
+
     bool isTimeTravelOnCooldown = false;
     float postProcessingLerpSpeed = -2.0f;
     bool isPostProcessTransitioning = false;
@@ -116,6 +119,10 @@ public class GameManager : MonoBehaviour
             }
 
             pastPostProcessing.weight = newWeightValue;
+
+            float inverseWeight = 1 - newWeightValue;
+            backgroundMusicPast.volume = newWeightValue;
+            backgroundMusicFuture.volume = inverseWeight;
         }
     }
 
@@ -147,16 +154,27 @@ public class GameManager : MonoBehaviour
     {
 
         Debug.Log("OnEnterPast");
-
-        foreach (var futureObject in futureObjects)
-        {
-            futureObject.GetComponent<Collider2D>().enabled = false;
-            futureObject.GetComponent<FadeScript>().fadingOut = true;
-        }
         foreach (var pastObject in pastObjects)
         {
-            pastObject.GetComponent<Collider2D>().enabled = true;
-            pastObject.GetComponent<FadeScript>().fadingIn = true;
+            var collider = pastObject.GetComponent<Collider2D>();
+            if (collider != null) {
+                collider.enabled = true;
+            }
+            var fade = pastObject.GetComponent<FadeScript>();
+            if (fade != null) {
+                fade.fadingIn = true;
+            }
+        }
+        foreach (var futureObject in futureObjects)
+        {
+            var collider = futureObject.GetComponent<Collider2D>();
+            if (collider != null) {
+                collider.enabled = false;
+            }
+            var fade = futureObject.GetComponent<FadeScript>();
+            if (fade != null) {
+                fade.fadingOut = true;
+            }
         }
 
 
@@ -194,13 +212,25 @@ public class GameManager : MonoBehaviour
         Debug.Log("OnEnterFuture");
         foreach (var pastObject in pastObjects)
         {
-            pastObject.GetComponent<Collider2D>().enabled = false;
-            pastObject.GetComponent<FadeScript>().fadingOut = true;
+            var collider = pastObject.GetComponent<Collider2D>();
+            if (collider != null) {
+                collider.enabled = false;
+            }
+            var fade = pastObject.GetComponent<FadeScript>();
+            if (fade != null) {
+                fade.fadingOut = true;
+            }
         }
         foreach (var futureObject in futureObjects)
         {
-            futureObject.GetComponent<Collider2D>().enabled = true;
-            futureObject.GetComponent<FadeScript>().fadingIn = true;
+            var collider = futureObject.GetComponent<Collider2D>();
+            if (collider != null) {
+                collider.enabled = true;
+            }
+            var fade = futureObject.GetComponent<FadeScript>();
+            if (fade != null) {
+                fade.fadingIn = true;
+            }
         }
 
 

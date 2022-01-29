@@ -6,6 +6,7 @@ public class FadeScript : MonoBehaviour
 {
     private bool couroutineIsDone = true;
     SpriteRenderer spriteRenderer;
+    CanvasGroup canvasGroup;
     public AnimationCurve fadeCurve;
 
     public bool fadingOut = false;
@@ -19,9 +20,42 @@ public class FadeScript : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null) {
+            canvasGroup = GetComponent<CanvasGroup>();
+        }
     }
 
-    void Update()
+    void UpdateCanvasGroup()
+    {
+        if (fadingIn)
+        {
+            if (canvasGroup.alpha < 1)
+            {
+                canvasGroup.alpha = canvasGroup.alpha + fadeSpeed * Time.deltaTime;
+            }
+            else
+            {
+                fadingIn = false;
+                fadingOut = false;
+            }
+
+        }
+
+        if (fadingOut)
+        {
+            if (canvasGroup.alpha > 0)
+            {
+                canvasGroup.alpha = canvasGroup.alpha- fadeSpeed * Time.deltaTime;
+            }
+            else
+            {
+                fadingIn = false;
+                fadingOut = false;
+            }
+        }
+    }
+
+    void UpdateSpriteRenderer()
     {
         if (fadingIn)
         {
@@ -51,7 +85,17 @@ public class FadeScript : MonoBehaviour
                 fadingOut = false;
             }
         }
+    }
 
+    void Update()
+    {
+        if (spriteRenderer != null) {
+            UpdateSpriteRenderer();
+        }
+
+        if (canvasGroup != null) {
+            UpdateCanvasGroup();
+        }
     }
 
     public void Fade(float time, bool willBeActive)
