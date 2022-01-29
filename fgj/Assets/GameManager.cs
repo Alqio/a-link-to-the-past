@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -8,12 +9,24 @@ public class GameManager : MonoBehaviour
 
     public bool inFuture = true;
 
+    public PostProcessVolume pastPostProcessing;
+
     public const string FUTURE_TAG = "Future";
     public const string PAST_TAG = "Past";
+    public float PAST_MAX_SECONDS = 3.0f;
+    public float COOLDOWN_MAX_SECONDS = 10.0f;
 
     public List<GameObject> pastObjects;
     public List<GameObject> futureObjects;
     public static GameManager Instance { get; private set; }
+
+    public PastTimer pastTimer = null;
+    public CooldownTimer cooldownTimer = null;
+
+    bool isTimeTravelOnCooldown = false;
+    float postProcessingLerpSpeed = -2.0f;
+    bool isPostProcessTransitioning = false;
+
     void Awake()
     {
         //Debug.LogError(SceneManager.GetActiveScene().name);
@@ -37,7 +50,7 @@ public class GameManager : MonoBehaviour
         foreach (var pastObject in past)
         {
             pastObjects.Add(pastObject);
-            pastObject.gameObject.SetActive(false);
+            pastObject.gameObject.GetComponent<Collider2D>().enabled = false;
         }
         foreach (var futureObject in future)
         {
@@ -84,21 +97,123 @@ public class GameManager : MonoBehaviour
             TimeTravel();
 
         }
+
+        if (isPostProcessTransitioning)
+        {
+            var newWeightValue = pastPostProcessing.weight + Time.deltaTime * postProcessingLerpSpeed;
+            if (newWeightValue > 1)
+            {
+                newWeightValue = 1;
+                isPostProcessTransitioning = false;
+            }
+
+            if (newWeightValue < 0)
+            {
+                newWeightValue = 0;
+                isPostProcessTransitioning = false;
+            }
+
+            pastPostProcessing.weight = newWeightValue;
+        }
     }
 
     public void TimeTravel()
     {
-        foreach (var pastObject in pastObjects)
+        if (inFuture && isTimeTravelOnCooldown)
         {
-            pastObject.gameObject.SetActive(inFuture);
+            Debug.Log("Time travel on cooldown! Can't travel for now.");
+            return;
         }
+
+
+        inFuture = !inFuture;
+
+        if (!inFuture)
+        {
+            OnEnterPast();
+        }
+        else
+        {
+            OnEnterFuture();
+        }
+
+        Debug.Log(inFuture);
+    }
+
+    // Start a Timer, after which the Player is again forced to travel to the future
+    public void OnEnterPast()
+    {
+
+        Debug.Log("OnEnterPast");
 
         foreach (var futureObject in futureObjects)
         {
-            futureObject.gameObject.SetActive(!inFuture);
+            futureObject.GetComponent<Collider2D>().enabled = false;
+            futureObject.GetComponent<FadeScript>().fadingOut = true;
         }
-        inFuture = !inFuture;
-        Debug.Log(inFuture);
+        foreach (var pastObject in pastObjects)
+        {
+            pastObject.GetComponent<Collider2D>().enabled = true;
+            pastObject.GetComponent<FadeScript>().fadingIn = true;
+        }
+
+
+        if (pastTimer == null)
+        {
+            pastTimer = this.gameObject.AddComponent<PastTimer>();
+        }
+        else
+        {
+            pastTimer.ResetTimer();
+        }
+        pastTimer.SetDuration(PAST_MAX_SECONDS);
+        pastTimer.StartTimer();
+        postProcessingLerpSpeed = -postProcessingLerpSpeed;
+        isPostProcessTransitioning = true;
+    }
+
+    public void EndCooldown()
+    {
+        Debug.Log("Cooldown ended");
+        isTimeTravelOnCooldown = false;
+    }
+
+    public void StartCooldown()
+    {
+        Debug.Log("Cooldown started");
+        isTimeTravelOnCooldown = true;
+    }
+
+    // Start a cooldown Timer. The player can't travel back in time until the Timer has finished.
+    public void OnEnterFuture()
+    {
+        Debug.Log("OnEnterFuture");
+        foreach (var pastObject in pastObjects)
+        {
+            pastObject.GetComponent<Collider2D>().enabled = false;
+            pastObject.GetComponent<FadeScript>().fadingOut = true;
+        }
+        foreach (var futureObject in futureObjects)
+        {
+            futureObject.GetComponent<Collider2D>().enabled = true;
+            futureObject.GetComponent<FadeScript>().fadingIn = true;
+        }
+
+
+        StartCooldown();
+        if (cooldownTimer == null)
+        {
+            cooldownTimer = this.gameObject.AddComponent<CooldownTimer>();
+        }
+        else
+        {
+            cooldownTimer.ResetTimer();
+        }
+        cooldownTimer.SetDuration(COOLDOWN_MAX_SECONDS);
+        cooldownTimer.StartTimer();
+
+        postProcessingLerpSpeed = -postProcessingLerpSpeed;
+        isPostProcessTransitioning = true;
     }
 
     public void Win()
