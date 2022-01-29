@@ -1,24 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MonsterStateEnumNameSpace;
 
-public enum State
+namespace MonsterStateEnumNameSpace
 {
-    Stuck,
-    Dead,
-    Cold,
-    Normal
+    public enum MonsterStateEnum
+    {
+        Stuck,
+        Dead,
+        Normal,
+        Shoot
+    }
 }
-
 public class MonsterState : MonoBehaviour
 {
 
-    public State state = State.Normal;
+    public MonsterStateEnum state = MonsterStateEnum.Normal;
     MonsterHealthComponent hpComponent;
+    MonsterMovement moveComponent;
+
+    float lastSpeed = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        moveComponent = GetComponent<MonsterMovement>();
         hpComponent = GetComponent<MonsterHealthComponent>();
     }
 
@@ -27,15 +34,15 @@ public class MonsterState : MonoBehaviour
     {
         if (hpComponent.currentHealth <= 0)
         {
-            state = State.Dead;
+            state = MonsterStateEnum.Dead;
             GameManager.Instance.Win();
             Destroy(gameObject);
         }
-        if (state == State.Stuck)
+        if (state == MonsterStateEnum.Stuck)
         {
             Debug.Log("Monster is stuck");
         }
-        else if (state == State.Dead)
+        else if (state == MonsterStateEnum.Dead)
         {
             Debug.Log("win");
         }
@@ -46,16 +53,22 @@ public class MonsterState : MonoBehaviour
         float damage = (float)opts[0];
         float deepness = (float)opts[1];
 
-        state = State.Stuck;
+        state = MonsterStateEnum.Stuck;
 
         hpComponent.ApplyDamage(damage);
 
+        lastSpeed = moveComponent.speed;
+        moveComponent.speed = moveComponent.stuckSpeed;
+
+    }
+    public void UnStuck(GameObject hole)
+    {
+        Destroy(hole);
+        state = MonsterStateEnum.Normal;
+        moveComponent.speed = lastSpeed;
+
     }
 
-    public void UnStuck()
-    {
-        state = State.Normal;
-        //TODO mihin stateen sen pitää mennä?
-    }
+
 
 }

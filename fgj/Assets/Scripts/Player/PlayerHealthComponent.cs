@@ -10,18 +10,22 @@ public class PlayerHealthComponent : MonoBehaviour
 
     public HealthBarComponent healthBarComponent;
 
-    void Start() {
+    void Start()
+    {
         currentHealth = maxHealth;
-        if (healthBarComponent != null) {
+        if (healthBarComponent != null)
+        {
             healthBarComponent.Initialize(maxHealth);
         }
     }
 
-    void ApplyDamage(float damageAmount) {
+    void ApplyDamage(float damageAmount)
+    {
         Debug.Log("Applied damage to player");
         currentHealth -= damageAmount;
         healthBarComponent.SetValue(currentHealth);
-        if (currentHealth < 0) {
+        if (currentHealth < 0)
+        {
             SceneManager.LoadScene("Main");
         }
     }
