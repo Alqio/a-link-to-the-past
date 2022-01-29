@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     float postProcessingLerpSpeed = -2.0f;
     bool isPostProcessTransitioning = false;
 
+    public TimerUI timerUi;
+
     void Awake()
     {
         //Debug.LogError(SceneManager.GetActiveScene().name);
@@ -169,6 +171,8 @@ public class GameManager : MonoBehaviour
         pastTimer.StartTimer();
         postProcessingLerpSpeed = -postProcessingLerpSpeed;
         isPostProcessTransitioning = true;
+
+        timerUi.OnEnterPast();
     }
 
     public void EndCooldown()
@@ -213,6 +217,8 @@ public class GameManager : MonoBehaviour
 
         postProcessingLerpSpeed = -postProcessingLerpSpeed;
         isPostProcessTransitioning = true;
+
+        timerUi.OnEnterFuture();
     }
 
     public void Win()

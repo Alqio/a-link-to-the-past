@@ -6,31 +6,47 @@ using UnityEngine.UI;
 public class TimerUI : MonoBehaviour
 {
     public Text timerText;
+
+    public HealthBarComponent barComponent;
+    public Image fillImage;
+
+    public Color originalColor;
+
     // Start is called before the first frame update
     void Start()
     {
-        ClearText();
+        barComponent.Initialize(GameManager.Instance.COOLDOWN_MAX_SECONDS, false);
+        originalColor = fillImage.color;
     }
 
-    void ClearText()
-    {
-        timerText.text = "";
+    public void OnEnterPast() {
+        Debug.Log("OnEnterPast in TimerUi");
+        barComponent.SetValue(GameManager.Instance.PAST_MAX_SECONDS);
+        fillImage.color = new Color(255, 255, 20.0f);
+    }
+
+    public void OnEnterFuture() {
+        Debug.Log("OnEnterFuture in TimerUi");
+        barComponent.SetValue(0);
+        fillImage.color = originalColor;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.cooldownTimer == null) return;
+        if (GameManager.Instance.inFuture) {
+            if (GameManager.Instance.cooldownTimer == null) return;
 
-        float remainingTime = GameManager.Instance.cooldownTimer.GetRemainingTime();
-        if (remainingTime <= 0)
-        {
-            ClearText();
+            float remainingTime = GameManager.Instance.cooldownTimer.GetRemainingTime();
+            barComponent.SetValue(GameManager.Instance.COOLDOWN_MAX_SECONDS - remainingTime);
         }
         else
         {
+            if (GameManager.Instance.pastTimer == null) return;
 
-            timerText.text = GameManager.Instance.cooldownTimer.GetRemainingTime().ToString();
+            float remainingTime = GameManager.Instance.pastTimer.GetRemainingTime();
+            barComponent.SetValue(remainingTime);
         }
+        
     }
 }
