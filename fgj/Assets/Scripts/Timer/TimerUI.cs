@@ -9,11 +9,21 @@ public class TimerUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ClearText();
+    }
+
+    void ClearText() {
+        timerText.text = "";
     }
 
     // Update is called once per frame
     void Update()
     {
-        timerText.text = GameManager.Instance.cooldownTimer.GetRemainingTime().ToString();
+        float remainingTime = GameManager.Instance.cooldownTimer.GetRemainingTime();
+        if (remainingTime <= 0) {
+            ClearText();
+        } else {
+            timerText.text = GameManager.Instance.cooldownTimer.GetRemainingTime().ToString();
+        }
     }
 }
