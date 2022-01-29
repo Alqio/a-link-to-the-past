@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
         foreach (var pastObject in past)
         {
             pastObjects.Add(pastObject);
-            pastObject.gameObject.SetActive(false);
+            pastObject.gameObject.GetComponent<Collider2D>().enabled = false;
         }
         foreach (var futureObject in future)
         {
@@ -97,7 +97,8 @@ public class GameManager : MonoBehaviour
             TimeTravel();
         }
 
-        if (isPostProcessTransitioning) {
+        if (isPostProcessTransitioning)
+        {
             var newWeightValue = pastPostProcessing.weight + Time.deltaTime * postProcessingLerpSpeed;
             if (newWeightValue > 1)
             {
@@ -105,7 +106,7 @@ public class GameManager : MonoBehaviour
                 isPostProcessTransitioning = false;
             }
 
-             if (newWeightValue < 0)
+            if (newWeightValue < 0)
             {
                 newWeightValue = 0;
                 isPostProcessTransitioning = false;
@@ -117,25 +118,21 @@ public class GameManager : MonoBehaviour
 
     public void TimeTravel()
     {
-        if (inFuture && isTimeTravelOnCooldown) {
+        if (inFuture && isTimeTravelOnCooldown)
+        {
             Debug.Log("Time travel on cooldown! Can't travel for now.");
             return;
         }
 
-        foreach (var pastObject in pastObjects)
-        {
-            pastObject.gameObject.SetActive(inFuture);
-        }
 
-        foreach (var futureObject in futureObjects)
-        {
-            futureObject.gameObject.SetActive(!inFuture);
-        }
         inFuture = !inFuture;
 
-        if (!inFuture) {
+        if (!inFuture)
+        {
             OnEnterPast();
-        } else {
+        }
+        else
+        {
             OnEnterFuture();
         }
 
@@ -143,11 +140,29 @@ public class GameManager : MonoBehaviour
     }
 
     // Start a Timer, after which the Player is again forced to travel to the future
-    public void OnEnterPast() {
+    public void OnEnterPast()
+    {
+
         Debug.Log("OnEnterPast");
-        if (pastTimer == null) {
+
+        foreach (var futureObject in futureObjects)
+        {
+            futureObject.GetComponent<Collider2D>().enabled = false;
+            futureObject.GetComponent<FadeScript>().fadingOut = true;
+        }
+        foreach (var pastObject in pastObjects)
+        {
+            pastObject.GetComponent<Collider2D>().enabled = true;
+            pastObject.GetComponent<FadeScript>().fadingIn = true;
+        }
+
+
+        if (pastTimer == null)
+        {
             pastTimer = this.gameObject.AddComponent<PastTimer>();
-        } else {
+        }
+        else
+        {
             pastTimer.ResetTimer();
         }
         pastTimer.SetDuration(PAST_MAX_SECONDS);
@@ -156,23 +171,41 @@ public class GameManager : MonoBehaviour
         isPostProcessTransitioning = true;
     }
 
-    public void EndCooldown() {
+    public void EndCooldown()
+    {
         Debug.Log("Cooldown ended");
         isTimeTravelOnCooldown = false;
     }
 
-    public void StartCooldown() {
+    public void StartCooldown()
+    {
         Debug.Log("Cooldown started");
         isTimeTravelOnCooldown = true;
     }
 
     // Start a cooldown Timer. The player can't travel back in time until the Timer has finished.
-    public void OnEnterFuture() {
+    public void OnEnterFuture()
+    {
         Debug.Log("OnEnterFuture");
+        foreach (var pastObject in pastObjects)
+        {
+            pastObject.GetComponent<Collider2D>().enabled = false;
+            pastObject.GetComponent<FadeScript>().fadingOut = true;
+        }
+        foreach (var futureObject in futureObjects)
+        {
+            futureObject.GetComponent<Collider2D>().enabled = true;
+            futureObject.GetComponent<FadeScript>().fadingIn = true;
+        }
+
+
         StartCooldown();
-        if (cooldownTimer == null) {
+        if (cooldownTimer == null)
+        {
             cooldownTimer = this.gameObject.AddComponent<CooldownTimer>();
-        } else {
+        }
+        else
+        {
             cooldownTimer.ResetTimer();
         }
         cooldownTimer.SetDuration(COOLDOWN_MAX_SECONDS);

@@ -14,50 +14,66 @@ public class Hourglass : MonoBehaviour
 
     public AnimationCurve growSpeed;
 
-    public float animationTime = 2.0f;
+    public float animationTime = 1.0f;
+
+    private bool animationIsOver = true;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         //animator.StopPlayback();
-        animator.enabled = false;
+        //animator.enabled = false;
         sprite = GetComponent<SpriteRenderer>();
         transform.localScale = originalScale;
-
+        sprite.enabled = false;
         Reset();
     }
 
     void Reset()
     {
-        Color newColor = new Color(1, 1, 1, 0.0f);
-        sprite.material.color = newColor;
+        //Color newColor = new Color(1, 1, 1, 0.0f);
+        //Color newColor = new Color(1, 1, 1, 0.0f);
+        //sprite.material.color = newColor;
         transform.localScale = originalScale;
-        animator.enabled = false;
+        //animator.enabled = false;
+
+    }
+
+    void StartAnimation()
+    {
+        //animator.enabled = true;
+        animator.Play("hourglass_animation", -1, 0.0f);
+        //animationIsOver = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetButtonDown("TimeTravel") && animationIsOver)
+        {
+            sprite.enabled = true;
+            Reset();
+            StartAnimation();
+            StartCoroutine(FadeTo(0.8f, animationTime));
+            StartCoroutine(Grow(animationTime));
+
+        }
+        //Debug.Log("Animator is playing: " + AnimatorIsPlaying());
+        if (!animationIsOver && !AnimatorIsPlaying())
+        {
+            Debug.Log("animation over");
+            animationIsOver = true;
+            //StartCoroutine(FadeTo(0.0f, 1.0f));
+            Reset();
+            sprite.enabled = false;
+        }
     }
     bool AnimatorIsPlaying()
     {
         return animator.GetCurrentAnimatorStateInfo(0).length >
                animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }
-    void StartAnimation()
-    {
-        animator.enabled = true;
-        animator.Play("reverse", -1, 0.0f);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetButtonDown("TimeTravel"))
-        {
-            Reset();
-            StartAnimation();
-            StartCoroutine(FadeTo(0.8f, animationTime));
-            StartCoroutine(Grow(animationTime));
-        }
-    }
-
     public IEnumerator FadeTo(float aValue, float aTime)
     {
         float alpha = sprite.material.color.a;
@@ -72,7 +88,6 @@ public class Hourglass : MonoBehaviour
 
     public IEnumerator Grow(float aTime)
     {
-        var scale = originalScale.x;
         for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
         {
             Vector3 newScale = Vector3.Lerp(originalScale, targetScale, growSpeed.Evaluate(t));
