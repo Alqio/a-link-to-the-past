@@ -10,10 +10,18 @@ public class GameManager : MonoBehaviour
 
     public const string FUTURE_TAG = "Future";
     public const string PAST_TAG = "Past";
+    public float PAST_MAX_SECONDS = 3.0f;
+    public float COOLDOWN_MAX_SECONDS = 10.0f;
 
     public List<GameObject> pastObjects;
     public List<GameObject> futureObjects;
     public static GameManager Instance { get; private set; }
+
+    public PastTimer pastTimer = null;
+    public CooldownTimer cooldownTimer = null;
+
+    bool isTimeTravelOnCooldown = false;
+
     void Awake()
     {
         //Debug.LogError(SceneManager.GetActiveScene().name);
@@ -87,6 +95,11 @@ public class GameManager : MonoBehaviour
 
     public void TimeTravel()
     {
+        if (inFuture && isTimeTravelOnCooldown) {
+            Debug.Log("Time travel on cooldown! Can't travel for now.");
+            return;
+        }
+
         foreach (var pastObject in pastObjects)
         {
             pastObject.gameObject.SetActive(inFuture);
@@ -97,7 +110,49 @@ public class GameManager : MonoBehaviour
             futureObject.gameObject.SetActive(!inFuture);
         }
         inFuture = !inFuture;
+
+        if (!inFuture) {
+            OnEnterPast();
+        } else {
+            OnEnterFuture();
+        }
+
         Debug.Log(inFuture);
+    }
+
+    // Start a Timer, after which the Player is again forced to travel to the future
+    public void OnEnterPast() {
+        Debug.Log("OnEnterPast");
+        if (pastTimer == null) {
+            pastTimer = this.gameObject.AddComponent<PastTimer>();
+        } else {
+            pastTimer.ResetTimer();
+        }
+        pastTimer.SetDuration(PAST_MAX_SECONDS);
+        pastTimer.StartTimer();
+    }
+
+    public void EndCooldown() {
+        Debug.Log("Cooldown ended");
+        isTimeTravelOnCooldown = false;
+    }
+
+    public void StartCooldown() {
+        Debug.Log("Cooldown started");
+        isTimeTravelOnCooldown = true;
+    }
+
+    // Start a cooldown Timer. The player can't travel back in time until the Timer has finished.
+    public void OnEnterFuture() {
+        Debug.Log("OnEnterFuture");
+        StartCooldown();
+        if (cooldownTimer == null) {
+            cooldownTimer = this.gameObject.AddComponent<CooldownTimer>();
+        } else {
+            cooldownTimer.ResetTimer();
+        }
+        cooldownTimer.SetDuration(COOLDOWN_MAX_SECONDS);
+        cooldownTimer.StartTimer();
     }
 
     public void Win()
