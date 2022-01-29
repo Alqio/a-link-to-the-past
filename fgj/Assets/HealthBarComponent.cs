@@ -24,15 +24,15 @@ public class HealthBarComponent : MonoBehaviour
         targetValue = health;
     }
 
-    void Update() {
-        if (Mathf.Abs(currentValue - targetValue) < 0.1)
+    void FixedUpdate()
+    {
+        if (Mathf.Abs(currentValue - targetValue) < 2)
         {
             slider.value = targetValue;
             return;
         }
-
         float direction = Mathf.Sign(currentValue - targetValue);
-        currentValue = currentValue - Time.deltaTime * moveSpeed * direction;
+        currentValue = currentValue - Time.fixedDeltaTime * moveSpeed * direction;
         slider.value = currentValue;
     }
 }

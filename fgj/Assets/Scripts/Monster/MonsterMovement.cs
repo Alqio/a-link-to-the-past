@@ -8,7 +8,8 @@ public class MonsterMovement : MonoBehaviour
     Vector2 currentTarget;
     int targetIndex = 0;
 
-
+    Quaternion lookHere;
+    public float rotateSpeed;
     public float speed;
     public float stuckSpeed;
     List<GameObject> targetPoints = new List<GameObject>();
@@ -33,6 +34,7 @@ public class MonsterMovement : MonoBehaviour
     MonsterBehavior prevBehavior = MonsterBehavior.Random;
 
     public bool showTargets = true;
+    public GameObject sprite;
 
     public static Vector3 RandomPointInBounds(Bounds bounds)
     {
@@ -59,7 +61,6 @@ public class MonsterMovement : MonoBehaviour
         }
     }
 
-    public bool shooted = false;
     Vector2 GetNextTarget()
     {
         if (movementBehavior == MonsterBehavior.Pattern)
@@ -87,17 +88,18 @@ public class MonsterMovement : MonoBehaviour
     void PickNewTarget()
     {
         currentTarget = GetNextTarget();
-        var q = Quaternion.LookRotation(currentTarget - (Vector2)transform.position);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 10 * Time.deltaTime);
         speed = (float)System.Math.Pow(2, rnd.Next(1, 4));
+
+        //lookHere = Quaternion.LookRotation(currentTarget - (Vector2)transform.position);
+
 
     }
 
     IEnumerator Shoot()
     {
         Debug.Log("shoot tooty");
-        var q = Quaternion.LookRotation(player.transform.position - transform.position);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 10 * Time.deltaTime);
+        //var q = Quaternion.LookRotation(player.transform.position - transform.position);
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 10 * Time.deltaTime);
 
         GameObject projectile = Instantiate(projectilePrefab, transform);
         //projectile.GetComponent<Projectile>().target = player.transform.position;
@@ -123,6 +125,13 @@ public class MonsterMovement : MonoBehaviour
 
         float step = speed * Time.deltaTime;
 
+        // Get Angle in Radians
+        float AngleRad = Mathf.Atan2(currentTarget.y - sprite.transform.position.y, currentTarget.x - sprite.transform.position.x);
+        // Get Angle in Degrees
+        float AngleDeg = (180 / Mathf.PI) * AngleRad;
+        // Rotate Object
+        sprite.transform.rotation = Quaternion.Euler(0, 0, AngleDeg + 90);
+
         if (prevBehavior != movementBehavior)
         {
             prevBehavior = movementBehavior;
@@ -139,24 +148,28 @@ public class MonsterMovement : MonoBehaviour
                  //GetComponent<MonsterState>().state = MonsterStateEnum.Normal;
                  //StartCoroutine(Shoot());
              }*/
-            shooted = true;
+            /*
             var q = Quaternion.LookRotation(player.transform.position - transform.position);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 10 * Time.deltaTime);
+*/
 
             GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
             projectile.GetComponent<Projectile>().direction = Vector3.Normalize(transform.position - player.transform.position);
-
             PickNewTarget();
 
         }
         else
         {
-            if (movementBehavior == MonsterBehavior.Follow)
+            if (GameManager.Instance.inFuture)
             {
-                currentTarget = player.transform.position;
-                transform.LookAt(player.transform.position, Vector3.down);
+
+                if (movementBehavior == MonsterBehavior.Follow)
+                {
+                    currentTarget = player.transform.position;
+                    transform.LookAt(player.transform.position, Vector3.down);
+                }
+                transform.position = Vector2.MoveTowards(transform.position, currentTarget, step);
             }
-            transform.position = Vector2.MoveTowards(transform.position, currentTarget, step);
         }
 
         if (Input.GetButtonDown("ResetMonsterTargets"))
