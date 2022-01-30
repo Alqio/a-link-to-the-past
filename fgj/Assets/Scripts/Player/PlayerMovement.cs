@@ -8,6 +8,14 @@ public class PlayerMovement : MonoBehaviour
     public GameObject sprite;
     Vector2 input;
 
+    private AudioSource audioSource;
+    public AudioClip walkAudio;
+
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -19,6 +27,15 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 moveIncrement = input * movementSpeed * Time.fixedDeltaTime;
         body.MovePosition(body.position + moveIncrement);
+
+        Debug.Log("magn" + moveIncrement.magnitude);
+        if (moveIncrement.magnitude > 0.001)
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(walkAudio);
+            }
+        }
 
         /*
         Vector3 uusiV3 = new Vector3(input.x, input.y, 0);
