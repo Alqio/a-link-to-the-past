@@ -23,9 +23,7 @@ public class HiScoreSender : MonoBehaviour
 
     void PostScore()
     {
-        Debug.Log("POSTTTTia " + scoreInputField.text);
-    
-        int score = (int) ScoreManager.Instance.GetScore();
+        float score = ScoreManager.Instance.GetScore();
 
         string dateString = System.DateTime.UtcNow.ToString("o");
 
