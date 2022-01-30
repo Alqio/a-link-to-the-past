@@ -23,6 +23,7 @@ public class Projectile : MonoBehaviour
         if (other.gameObject.name == "player")
         {
             other.collider.gameObject.SendMessage("ApplyDamage", damage);
+            GameManager.Instance.RemoveFutureObject(this.gameObject);
             Destroy(gameObject);
         }
         else if (other.gameObject.name != "monster")

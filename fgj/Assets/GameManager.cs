@@ -91,6 +91,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void RemoveFutureObject(GameObject obj)
+    {
+        if (futureObjects.Contains(obj))
+        {
+            futureObjects.Remove(obj);
+        }
+    }
+
     public void AddFutureObject(GameObject obj)
     {
         obj.tag = FUTURE_TAG;
