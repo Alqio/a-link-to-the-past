@@ -114,6 +114,7 @@ public class MonsterMovement : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
         projectile.GetComponent<Projectile>().direction = Vector3.Normalize(transform.position - player.transform.position);
         GameManager.Instance.AddFutureObject(projectile);
+        transform.GetChild(1).GetComponent<Animator>().Play("monster_fire_anim", -1, 0.0f); // todo fix index
     }
 
     IEnumerator ShootRoutine()
