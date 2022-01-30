@@ -11,6 +11,7 @@ public class MonsterMovement : MonoBehaviour
     Quaternion lookHere;
     public float rotateSpeed;
     public float speed;
+    public float chargeSpeed;
     public float stuckSpeed;
     List<GameObject> targetPoints = new List<GameObject>();
     System.Random rnd = new System.Random();
@@ -20,7 +21,7 @@ public class MonsterMovement : MonoBehaviour
     public int amountOfTargetPoints;
     public Sprite targetSprite;
     public GameObject player;
-
+    public LayerMask mask;
     public GameObject projectilePrefab;
 
     private AudioSource audioSource;
@@ -100,17 +101,47 @@ public class MonsterMovement : MonoBehaviour
 
     }
 
-    IEnumerator Shoot()
+    void RotateTowards(Vector3 target)
     {
-        Debug.Log("shoot tooty");
-        //var q = Quaternion.LookRotation(player.transform.position - transform.position);
-        //transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 10 * Time.deltaTime);
+        Vector3 vectorToTarget = target - sprite.transform.position;
+        float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+        Quaternion q = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+        sprite.transform.rotation = Quaternion.Slerp(sprite.transform.rotation, q, Time.deltaTime * rotateSpeed);
+    }
 
-        GameObject projectile = Instantiate(projectilePrefab, transform);
-        //projectile.GetComponent<Projectile>().target = player.transform.position;
+    void Shoot()
+    {
+        GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+        projectile.GetComponent<Projectile>().direction = Vector3.Normalize(transform.position - player.transform.position);
+        GameManager.Instance.AddFutureObject(projectile);
+    }
 
-        GetComponent<MonsterState>().state = MonsterStateEnum.Normal;
-        PickNewTarget();
+    IEnumerator ShootRoutine()
+    {
+
+        MonsterState monsterStateScript = GetComponent<MonsterState>();
+
+        RaycastHit2D hit = Physics2D.Raycast(sprite.transform.position, sprite.transform.up * -10, Mathf.Infinity);
+        if (hit.collider != null && hit.collider.gameObject.name == "player")
+        {
+            if (rnd.Next(10) < 7)
+            {
+                Debug.Log("shooty tooty");
+                Shoot();
+                PickNewTarget();
+            }
+            else
+            {
+                Debug.Log("CHAAAARGE!!!");
+                currentTarget = player.transform.position;
+                speed = chargeSpeed;
+            }
+        }
+        else
+        {
+            RotateTowards(player.transform.position);
+        }
+
         yield return null;
     }
 
@@ -132,16 +163,9 @@ public class MonsterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(speed);
-
         float step = speed * Time.deltaTime;
 
-        // Get Angle in Radians
-        float AngleRad = Mathf.Atan2(currentTarget.y - sprite.transform.position.y, currentTarget.x - sprite.transform.position.x);
-        // Get Angle in Degrees
-        float AngleDeg = (180 / Mathf.PI) * AngleRad;
-        // Rotate Object
-        sprite.transform.rotation = Quaternion.Euler(0, 0, AngleDeg + 90);
+
 
         if (prevBehavior != movementBehavior)
         {
@@ -150,27 +174,8 @@ public class MonsterMovement : MonoBehaviour
         }
         else if (Vector2.Distance(transform.position, currentTarget) < 0.1)
         {
-            MonsterState monsterStateScript = GetComponent<MonsterState>();
-            /* if (monsterStateScript.state != MonsterStateEnum.Shoot)
-             {
-                 monsterStateScript.state = MonsterStateEnum.Shoot;
 
-
-                 //GetComponent<MonsterState>().state = MonsterStateEnum.Normal;
-                 //StartCoroutine(Shoot());
-             }*/
-            /*
-            var q = Quaternion.LookRotation(player.transform.position - transform.position);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 10 * Time.deltaTime);
-*/
-
-            GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
-            projectile.GetComponent<Projectile>().direction = Vector3.Normalize(transform.position - player.transform.position);
-
-            GameManager.Instance.AddFutureObject(projectile);
-
-            PickNewTarget();
-
+            StartCoroutine(ShootRoutine());
         }
         else
         {
@@ -183,7 +188,7 @@ public class MonsterMovement : MonoBehaviour
                     transform.LookAt(player.transform.position, Vector3.down);
                 }
                 transform.position = Vector2.MoveTowards(transform.position, currentTarget, step);
-
+                RotateTowards(currentTarget);
                 if (step > 0.02)
                 {
                     if (!audioSource.isPlaying)

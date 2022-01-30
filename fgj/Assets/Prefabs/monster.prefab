@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7184876806649648889}
   - component: {fileID: 3344903791091403646}
   - component: {fileID: 3166126581445117619}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 6264224035558771854}
   - component: {fileID: 712000584713066056}
   - component: {fileID: 5371158019967094689}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: HPBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 1590569493206358998}
   - component: {fileID: 2055554243369002555}
   - component: {fileID: 912040269420830818}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Healthbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -318,8 +318,7 @@ GameObject:
   - component: {fileID: 5786290644175664117}
   - component: {fileID: 5786290644175663884}
   - component: {fileID: 1193515464903487299}
-  - component: {fileID: 1198410005294078202}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: monster
   m_TagString: Future
   m_Icon: {fileID: 0}
@@ -417,11 +416,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateSpeed: 10
   speed: 2
+  chargeSpeed: 8
   stuckSpeed: 1
   room: {fileID: 0}
   amountOfTargetPoints: 5
   targetSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   player: {fileID: 0}
+  mask:
+    serializedVersion: 2
+    m_Bits: 1
   projectilePrefab: {fileID: 8007754364970829090, guid: a56d5dfb7f089f749830261a1da1a465, type: 3}
   walkAudio: {fileID: 8300000, guid: 91d01dd3b90cfa746bfeb0c450bf9f55, type: 3}
   shootAudio: {fileID: 8300000, guid: 30b9704c0ea766640a65a24e0044ad07, type: 3}
@@ -625,7 +628,7 @@ GameObject:
   - component: {fileID: 8017754951049500959}
   - component: {fileID: 5270239440260933202}
   - component: {fileID: 6863851792526295424}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: HP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -703,7 +706,7 @@ GameObject:
   - component: {fileID: 6292501213364130267}
   - component: {fileID: 1362109664595017715}
   - component: {fileID: 2229070549365628187}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Canvas (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

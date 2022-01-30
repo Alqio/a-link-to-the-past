@@ -811,7 +811,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8ff6a318c79eb5b48b98701421ea64bc, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c40efc95343d7aa43b03eedb5c98607e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0
   m_Pitch: 1
@@ -1038,7 +1038,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 205.9, y: 302.18}
+  m_AnchoredPosition: {x: 250.6, y: 359.7}
   m_SizeDelta: {x: 167.39, y: 22.13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &436901546
@@ -1156,17 +1156,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea94bc34ef1197242bf0f4ec2eda09f2, type: 3}
---- !u!114 &719743634 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6142402849560069484, guid: f8899481ff0112541bba00e3921e09cd, type: 3}
-  m_PrefabInstance: {fileID: 961616186}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &783643120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1252,8 +1241,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 624567207225214644, guid: aceac9be3fbf84740900319848ffa155, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 624567207225214644, guid: aceac9be3fbf84740900319848ffa155, type: 3}
       propertyPath: m_TagString
       value: Future
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193515464903487299, guid: aceac9be3fbf84740900319848ffa155, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5786290644175663885, guid: aceac9be3fbf84740900319848ffa155, type: 3}
       propertyPath: m_Name
@@ -1315,10 +1312,6 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1607849502}
-    - target: {fileID: 5786290644175664117, guid: aceac9be3fbf84740900319848ffa155, type: 3}
-      propertyPath: movementBehavior
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7275048429334345215, guid: aceac9be3fbf84740900319848ffa155, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.020629138
@@ -1708,10 +1701,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4355662205359427647, guid: f8899481ff0112541bba00e3921e09cd, type: 3}
-      propertyPath: fillImage
-      value: 
-      objectReference: {fileID: 719743634}
     - target: {fileID: 7193645901334294466, guid: f8899481ff0112541bba00e3921e09cd, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1928,7 +1917,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: d49c4edd26fe4ca4088c03dd5c7e3dff, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ec86e5e64805c5243aaaa8a47517ac19, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -2182,7 +2171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1196217450}
   - component: {fileID: 1196217449}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2827,7 +2816,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1828434000}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2129481819}
@@ -2835,7 +2824,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 84.55, y: 302.18}
+  m_AnchoredPosition: {x: 130.2, y: 359.7}
   m_SizeDelta: {x: 59.1, y: 22.13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1828434002
@@ -3130,7 +3119,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2129481818}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1828434001}

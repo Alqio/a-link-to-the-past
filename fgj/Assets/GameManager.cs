@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     float postProcessingLerpSpeed = -2.0f;
     bool isPostProcessTransitioning = false;
 
+    bool isInputOnLock = false;
+
     public TimerUI timerUi;
 
     void Awake()
@@ -97,6 +99,15 @@ public class GameManager : MonoBehaviour
         {
             futureObjects.Remove(obj);
         }
+
+        for( var i = 0; i < obj.transform.childCount; i++)
+        {
+            var child = obj.transform.GetChild(i).gameObject;
+            if (futureObjects.Contains(child))
+            {
+                futureObjects.Remove(child);
+            }
+        }
     }
 
     public void AddFutureObject(GameObject obj)
@@ -144,9 +155,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ReleaseInputLock()
+    {
+        isInputOnLock = false;
+    }
+
     public void TimeTravel()
     {
-        if (inFuture && isTimeTravelOnCooldown)
+        if ((inFuture && isTimeTravelOnCooldown) || (!inFuture && isInputOnLock))
         {
             Debug.Log("Time travel on cooldown! Can't travel for now.");
             return;
@@ -158,6 +174,7 @@ public class GameManager : MonoBehaviour
         if (!inFuture)
         {
             OnEnterPast();
+            isInputOnLock = true;
         }
         else
         {
@@ -183,6 +200,7 @@ public class GameManager : MonoBehaviour
             if (fade != null)
             {
                 fade.fadingIn = true;
+                fade.fadingOut = false;
             }
         }
         foreach (var futureObject in futureObjects)
@@ -196,6 +214,7 @@ public class GameManager : MonoBehaviour
             if (fade != null)
             {
                 fade.fadingOut = true;
+                fade.fadingIn = false;
             }
         }
 
@@ -243,6 +262,7 @@ public class GameManager : MonoBehaviour
             if (fade != null)
             {
                 fade.fadingOut = true;
+                fade.fadingIn = false;
             }
         }
         foreach (var futureObject in futureObjects)
@@ -256,6 +276,7 @@ public class GameManager : MonoBehaviour
             if (fade != null)
             {
                 fade.fadingIn = true;
+                fade.fadingOut = false;
             }
         }
 

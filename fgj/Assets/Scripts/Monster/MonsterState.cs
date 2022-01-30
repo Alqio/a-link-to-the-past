@@ -34,6 +34,7 @@ public class MonsterState : MonoBehaviour
     {
         if (hpComponent.currentHealth <= 0)
         {
+            GameManager.Instance.RemoveFutureObject(gameObject);
             state = MonsterStateEnum.Dead;
             GameManager.Instance.Win();
             Destroy(gameObject);
