@@ -24,6 +24,11 @@ public class MonsterMovement : MonoBehaviour
     public LayerMask mask;
     public GameObject projectilePrefab;
 
+    private AudioSource audioSource;
+
+    public AudioClip walkAudio;
+    public AudioClip shootAudio;
+
     public enum MonsterBehavior // your custom enumeration
     {
         Random,
@@ -144,9 +149,15 @@ public class MonsterMovement : MonoBehaviour
     void Start()
     {
         GetComponent<MonsterState>().state = MonsterStateEnum.Normal;
+        audioSource = GetComponent<AudioSource>();
 
         ResetTargets();
         currentTarget = GetNextTarget();
+    }
+
+    public void StopSounds()
+    {
+        audioSource.Stop();
     }
 
     // Update is called once per frame
@@ -178,6 +189,21 @@ public class MonsterMovement : MonoBehaviour
                 }
                 transform.position = Vector2.MoveTowards(transform.position, currentTarget, step);
                 RotateTowards(currentTarget);
+                if (step > 0.02)
+                {
+                    if (!audioSource.isPlaying)
+                    {
+                        audioSource.PlayOneShot(walkAudio, 0.4f);
+                    }
+                }
+
+            }
+            else
+            {
+                if (audioSource.isPlaying)
+                {
+                    StopSounds();
+                }
 
             }
         }

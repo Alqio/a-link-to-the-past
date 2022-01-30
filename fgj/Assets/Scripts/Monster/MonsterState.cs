@@ -36,6 +36,7 @@ public class MonsterState : MonoBehaviour
         {
             state = MonsterStateEnum.Dead;
             GameManager.Instance.Win();
+            GameManager.Instance.RemoveFutureObject(gameObject);
             Destroy(gameObject);
         }
         if (state == MonsterStateEnum.Stuck)
