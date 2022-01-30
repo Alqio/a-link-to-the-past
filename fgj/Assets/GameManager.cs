@@ -298,10 +298,4 @@ public class GameManager : MonoBehaviour
 
         timerUi.OnEnterFuture();
     }
-
-    public void Win()
-    {
-        Debug.Log("OU jea, voitto!");
-    }
-
 }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class ScoreManager : MonoBehaviour
 {
 
-    public ScoreManager Instance;
+    public static ScoreManager Instance;
     void Awake()
     {
         //Debug.LogError(SceneManager.GetActiveScene().name);
@@ -23,7 +23,7 @@ public class ScoreManager : MonoBehaviour
 
     public Text text;
 
-    float GetScore() {
+    public float GetScore() {
         float time = runningTime;
         if (time < 0) {
             time = maxTime; // :)

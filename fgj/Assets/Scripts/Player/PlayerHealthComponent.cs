@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerHealthComponent : MonoBehaviour
 {
     public float maxHealth = 100.0f;
-    float currentHealth;
+    public float currentHealth;
 
     public HealthBarComponent healthBarComponent;
 
@@ -24,9 +24,5 @@ public class PlayerHealthComponent : MonoBehaviour
         Debug.Log("Applied damage to player");
         currentHealth -= damageAmount;
         healthBarComponent.SetValue(currentHealth);
-        if (currentHealth < 0)
-        {
-            SceneManager.LoadScene("SceneElias");
-        }
     }
 }
