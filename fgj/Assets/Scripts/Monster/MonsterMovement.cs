@@ -23,6 +23,11 @@ public class MonsterMovement : MonoBehaviour
 
     public GameObject projectilePrefab;
 
+    private AudioSource audioSource;
+
+    public AudioClip walkAudio;
+    public AudioClip shootAudio;
+
     public enum MonsterBehavior // your custom enumeration
     {
         Random,
@@ -113,15 +118,21 @@ public class MonsterMovement : MonoBehaviour
     void Start()
     {
         GetComponent<MonsterState>().state = MonsterStateEnum.Normal;
+        audioSource = GetComponent<AudioSource>();
 
         ResetTargets();
         currentTarget = GetNextTarget();
     }
 
+    public void StopSounds()
+    {
+        audioSource.Stop();
+    }
+
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(speed);
+        //Debug.Log(speed);
 
         float step = speed * Time.deltaTime;
 
@@ -172,6 +183,23 @@ public class MonsterMovement : MonoBehaviour
                     transform.LookAt(player.transform.position, Vector3.down);
                 }
                 transform.position = Vector2.MoveTowards(transform.position, currentTarget, step);
+
+                if (step > 0.02)
+                {
+                    if (!audioSource.isPlaying)
+                    {
+                        audioSource.PlayOneShot(walkAudio, 0.4f);
+                    }
+                }
+
+            }
+            else
+            {
+                if (audioSource.isPlaying)
+                {
+                    StopSounds();
+                }
+
             }
         }
 
