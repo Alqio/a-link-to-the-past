@@ -26,7 +26,7 @@ public class PlayerAction : MonoBehaviour
             //source.clip = holeSounds[clipIndex];
             source.PlayOneShot(holeSounds[clipIndex]);
 
-            var newObject = Instantiate(holePrefab, gameObject.transform.position + new Vector3(0, 0, 690), gameObject.transform.rotation);
+            var newObject = Instantiate(holePrefab, gameObject.transform.position + new Vector3(0, 0, 600), gameObject.transform.rotation);
             Debug.Log("Hole in one!");
         }
 

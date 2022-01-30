@@ -28,7 +28,6 @@ public class PlayerMovement : MonoBehaviour
         Vector2 moveIncrement = input * movementSpeed * Time.fixedDeltaTime;
         body.MovePosition(body.position + moveIncrement);
 
-        Debug.Log("magn" + moveIncrement.magnitude);
         if (moveIncrement.magnitude > 0.001)
         {
             if (!audioSource.isPlaying)
