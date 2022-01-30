@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Main.unity
     guid: d0f642c738dd6994985a5f1280761a36
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: de64b0271a58c0f6bb65bc25db743c96
+  - enabled: 1
     path: Assets/Scenes/SceneElias.unity
     guid: bcdad94027490ac47aafacb36e922897
   m_configObjects: {}
