@@ -16,7 +16,7 @@ public class PastTimer : BaseTimer
     override public void UpdateBehaviour()
     {
         base.UpdateBehaviour();
-        if (currentTime > 0.5 && !isReleased) {
+        if (currentTime > 1 && !isReleased) {
             GameManager.Instance.ReleaseInputLock();
             isReleased = true;
         }

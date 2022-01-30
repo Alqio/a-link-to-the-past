@@ -102,7 +102,11 @@ public class GameManager : MonoBehaviour
 
         for( var i = 0; i < obj.transform.childCount; i++)
         {
-            futureObjects.Remove(obj.transform.GetChild(i).gameObject);
+            var child = obj.transform.GetChild(i).gameObject;
+            if (futureObjects.Contains(child))
+            {
+                futureObjects.Remove(child);
+            }
         }
     }
 
@@ -196,6 +200,7 @@ public class GameManager : MonoBehaviour
             if (fade != null)
             {
                 fade.fadingIn = true;
+                fade.fadingOut = false;
             }
         }
         foreach (var futureObject in futureObjects)
@@ -209,6 +214,7 @@ public class GameManager : MonoBehaviour
             if (fade != null)
             {
                 fade.fadingOut = true;
+                fade.fadingIn = false;
             }
         }
 
@@ -256,6 +262,7 @@ public class GameManager : MonoBehaviour
             if (fade != null)
             {
                 fade.fadingOut = true;
+                fade.fadingIn = false;
             }
         }
         foreach (var futureObject in futureObjects)
@@ -269,6 +276,7 @@ public class GameManager : MonoBehaviour
             if (fade != null)
             {
                 fade.fadingIn = true;
+                fade.fadingOut = false;
             }
         }
 
