@@ -23,16 +23,14 @@ public class BaseTimer : MonoBehaviour
         return duration - currentTime;
     }
 
-    public void ResetTimer()
+    public virtual void ResetTimer()
     {
         currentTime = 0;
         isDone = false;
         isStarted = true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    public virtual void UpdateBehaviour() {
         if (isStarted && !isDone) {
             currentTime += Time.deltaTime;
             if (currentTime >= duration) {
@@ -40,6 +38,12 @@ public class BaseTimer : MonoBehaviour
                 currentTime = duration;
             }
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        UpdateBehaviour();
     }
 
     public virtual void OnTimerDone() {

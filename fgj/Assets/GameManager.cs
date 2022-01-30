@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     float postProcessingLerpSpeed = -2.0f;
     bool isPostProcessTransitioning = false;
 
+    bool isInputOnLock = false;
+
     public TimerUI timerUi;
 
     void Awake()
@@ -97,6 +99,11 @@ public class GameManager : MonoBehaviour
         {
             futureObjects.Remove(obj);
         }
+
+        for( var i = 0; i < obj.transform.childCount; i++)
+        {
+            futureObjects.Remove(obj.transform.GetChild(i).gameObject);
+        }
     }
 
     public void AddFutureObject(GameObject obj)
@@ -144,9 +151,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ReleaseInputLock()
+    {
+        isInputOnLock = false;
+    }
+
     public void TimeTravel()
     {
-        if (inFuture && isTimeTravelOnCooldown)
+        if ((inFuture && isTimeTravelOnCooldown) || (!inFuture && isInputOnLock))
         {
             Debug.Log("Time travel on cooldown! Can't travel for now.");
             return;
@@ -158,6 +170,7 @@ public class GameManager : MonoBehaviour
         if (!inFuture)
         {
             OnEnterPast();
+            isInputOnLock = true;
         }
         else
         {
