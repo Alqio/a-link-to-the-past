@@ -55,7 +55,17 @@ public class GameManager : MonoBehaviour
         foreach (var pastObject in past)
         {
             pastObjects.Add(pastObject);
-            pastObject.gameObject.GetComponent<Collider2D>().enabled = false;
+
+            var collider = pastObject.GetComponent<Collider2D>();
+            if (collider != null)
+            {
+                collider.enabled = false;
+            }
+            var fade = pastObject.GetComponent<FadeScript>();
+            if (fade != null)
+            {
+                fade.fadingOut = true;
+            }
         }
         foreach (var futureObject in future)
         {
@@ -81,7 +91,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void AddFutureObject(GameObject obj)
+    public void AddFutureObject(GameObject obj)
     {
         obj.tag = FUTURE_TAG;
         futureObjects.Add(obj);
@@ -156,7 +166,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("OnEnterPast");
         foreach (var pastObject in pastObjects)
         {
-            var collider = pastObject.GetComponent<BoxCollider2D>();
+            var collider = pastObject.GetComponent<Collider2D>();
             if (collider != null)
             {
                 collider.enabled = true;
@@ -169,7 +179,7 @@ public class GameManager : MonoBehaviour
         }
         foreach (var futureObject in futureObjects)
         {
-            var collider = futureObject.GetComponent<BoxCollider2D>();
+            var collider = futureObject.GetComponent<Collider2D>();
             if (collider != null)
             {
                 collider.enabled = false;
@@ -216,7 +226,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("OnEnterFuture");
         foreach (var pastObject in pastObjects)
         {
-            var collider = pastObject.GetComponent<BoxCollider2D>();
+            var collider = pastObject.GetComponent<Collider2D>();
             if (collider != null)
             {
                 collider.enabled = false;
@@ -229,7 +239,7 @@ public class GameManager : MonoBehaviour
         }
         foreach (var futureObject in futureObjects)
         {
-            var collider = futureObject.GetComponent<BoxCollider2D>();
+            var collider = futureObject.GetComponent<Collider2D>();
             if (collider != null)
             {
                 collider.enabled = true;

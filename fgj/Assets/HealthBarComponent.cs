@@ -41,7 +41,7 @@ public class HealthBarComponent : MonoBehaviour
             return;
         }
 
-        if (Mathf.Abs(currentValue - targetValue) < 0.1)
+        if (Mathf.Abs(currentValue - targetValue) < 5)
         {
             slider.value = targetValue;
             return;

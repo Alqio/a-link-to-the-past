@@ -11,7 +11,10 @@ public class Projectile : MonoBehaviour
 
     void FixedUpdate()
     {
-        transform.position = Vector3.MoveTowards(transform.position, direction * -1000, speed * Time.deltaTime);
+        if (GameManager.Instance.inFuture)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, direction * -1000, speed * Time.deltaTime);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D other)

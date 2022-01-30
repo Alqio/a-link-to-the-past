@@ -155,6 +155,9 @@ public class MonsterMovement : MonoBehaviour
 
             GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
             projectile.GetComponent<Projectile>().direction = Vector3.Normalize(transform.position - player.transform.position);
+
+            GameManager.Instance.AddFutureObject(projectile);
+
             PickNewTarget();
 
         }

@@ -26,7 +26,7 @@ public class PlayerHealthComponent : MonoBehaviour
         healthBarComponent.SetValue(currentHealth);
         if (currentHealth < 0)
         {
-            SceneManager.LoadScene("Main");
+            SceneManager.LoadScene("SceneElias");
         }
     }
 }
