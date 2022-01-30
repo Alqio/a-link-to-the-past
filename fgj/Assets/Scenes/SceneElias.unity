@@ -1315,10 +1315,6 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1607849502}
-    - target: {fileID: 5786290644175664117, guid: aceac9be3fbf84740900319848ffa155, type: 3}
-      propertyPath: movementBehavior
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7275048429334345215, guid: aceac9be3fbf84740900319848ffa155, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.020629138
@@ -1708,10 +1704,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4355662205359427647, guid: f8899481ff0112541bba00e3921e09cd, type: 3}
-      propertyPath: fillImage
-      value: 
-      objectReference: {fileID: 719743634}
     - target: {fileID: 7193645901334294466, guid: f8899481ff0112541bba00e3921e09cd, type: 3}
       propertyPath: m_Camera
       value: 
@@ -2182,7 +2174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1196217450}
   - component: {fileID: 1196217449}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
