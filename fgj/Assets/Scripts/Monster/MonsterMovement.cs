@@ -190,13 +190,6 @@ public class MonsterMovement : MonoBehaviour
                 }
                 transform.position = Vector2.MoveTowards(transform.position, currentTarget, step);
                 RotateTowards(currentTarget);
-                if (step > 0.02)
-                {
-                    if (!audioSource.isPlaying)
-                    {
-                        audioSource.PlayOneShot(walkAudio, 0.4f);
-                    }
-                }
 
             }
             else

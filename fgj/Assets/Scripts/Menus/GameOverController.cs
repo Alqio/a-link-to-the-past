@@ -39,7 +39,7 @@ public class GameOverController : MonoBehaviour
     {
         Time.timeScale = 0f;
         GameOverCanvas.enabled = true;
-        gameOverText.text = "Congratulations, you got the wine!";
+        gameOverText.text = "Congratulations! You got the wine!";
         scoreText.enabled  = true;
         scoreText.text = "Score: " + ScoreManager.Instance.GetScore().ToString();
         ScoreInputField.enabled = true;
@@ -51,7 +51,10 @@ public class GameOverController : MonoBehaviour
     {
         Time.timeScale = 0f;
         GameOverCanvas.enabled = true;
-        gameOverText.text = "Game over, you didn't get the wine.";
+        gameOverText.text = "Game over! You didn't get the wine.";
+        
+        ScoreInputField.gameObject.SetActive(false);
+        SendButton.gameObject.SetActive(false);
     }
     public void Restart()
     {
